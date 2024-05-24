@@ -69,6 +69,18 @@ class Manipulation:
         self.navegador.close()
         self.__navegador:WebDriver = webdriver.Chrome(options=self.options)
         return self
+    
+    def _verificarLogin(self, email:str="renan.oliveira@patrimar.com.br"):
+        sleep(5)
+        divs:List[WebElement] = _find_elements(browser=self.navegador, by=By.TAG_NAME, target='div')
+        for div in divs:
+            try:
+                attibuteDiv = div.get_attribute("data-test-id")
+            except:
+                continue
+            if attibuteDiv == email:
+                div.click()
+                return self
 
     def _identifyUpdateButtonBox(self, name_box:str) -> WebElement:
         self._changePreview()
