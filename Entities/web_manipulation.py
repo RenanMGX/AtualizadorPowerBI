@@ -83,6 +83,7 @@ class Manipulation:
                 return self
 
     def _identifyUpdateButtonBox(self, name_box:str) -> WebElement:
+        
         self._changePreview()
         num_attempts:int = 15
         for num in range(num_attempts):

@@ -28,7 +28,8 @@ if __name__ == "__main__":
                 except:
                     print(f"{datetime.now().isoformat()} -> não clicou <-----------------------------------------------")
                     sleep(10)
-                #sleep(60)
+                sleep(5)
+                bot.navegador.refresh()
         else:
             bot = Manipulation(url=url)
             input("digite para fechar: ")
