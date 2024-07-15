@@ -8,7 +8,7 @@ import traceback
 
 if __name__ == "__main__":
     try:
-        url = "https://app.powerbi.com/groups/79373af8-3c95-480c-9832-1323fe2c9501/lineage?experience=power-bi"
+        url = "https://app.powerbi.com/groups/01fb58bd-12a1-4105-b916-0ea0fb6874da/lineage?experience=power-bi"
         
         initial_config = False
         
@@ -24,11 +24,13 @@ if __name__ == "__main__":
                 try:
                     bot._identifyUpdateButtonBox("Liquidação de Obras").click()
                     print(f"{datetime.now().isoformat()} -> clicou <-----------------------------------------------")
-                    sleep(2*60)
+                    sleep(1*60)
                 except:
                     print(f"{datetime.now().isoformat()} -> não clicou <-----------------------------------------------")
-                    sleep(10)
-                #sleep(60)
+                    sleep(30)
+                sleep(5)    
+                bot.navegador.refresh()
+                
         else:
             bot = Manipulation(url=url)
             input("digite para fechar: ")
