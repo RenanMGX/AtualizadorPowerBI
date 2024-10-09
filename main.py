@@ -30,14 +30,12 @@ if __name__ == "__main__":
                     #bot._identifyUpdateButtonBox("Liquidação de Obras").send_keys(Keys.RETURN)
                     bot.atualizar()
                     print(f"{datetime.now().isoformat()} -> clicou <-----------------------------------------------")
-                    #sleep(2*60)
-                    sleep(1)
+                    sleep(2*60)
                 except Exception as err:
                     print(f"{datetime.now().isoformat()} -> não clicou <-----------------------------------------------")
                     print(str(err))
-                    #sleep(10)
-                    sleep(1)
-                sleep(1)
+                    sleep(10)
+                sleep(5)
                 #bot.navegador.refresh()
         else:
             bot = Manipulation(url=url)
