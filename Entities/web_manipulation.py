@@ -5,6 +5,7 @@ from getpass import getuser
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
+from selenium.common.exceptions import NoSuchElementException
 from typing import List
 from time import sleep
 
@@ -58,6 +59,7 @@ class Manipulation:
             self.options.add_argument("--headless")  # Configura o Chrome em modo headless
             self.options.add_argument("--disable-gpu")  # Desativa a GPU (necessário para algumas versões do Windows)
             self.options.add_argument("--window-size=1920x1080")  # Define o tamanho da janela
+            self.options.add_argument("--window-position=-2400,-2400")
         else:
             self.options.add_argument("--window-size=1920x1080")
             
@@ -88,12 +90,18 @@ class Manipulation:
         num_attempts:int = 15
         for num in range(num_attempts):
             try:
-                box_group:List[WebElement] = []
-                tags_g:List[WebElement] = _find_elements(browser=self.navegador, by=By.TAG_NAME, target='g')
-                for tag_g in tags_g:
-                    #print(g)
-                    if tag_g.get_attribute("class") == "node ng-star-inserted":
-                        box_group.append(tag_g)
+                
+                
+                def search_box_group() -> List[WebElement]:
+                    box_group_temp:List[WebElement] = []
+                    tags_g:List[WebElement] = _find_elements(browser=self.navegador, by=By.TAG_NAME, target='g')
+                    for tag_g in tags_g:
+                        #print(g)
+                        if tag_g.get_attribute("class") == "node ng-star-inserted":
+                            box_group_temp.append(tag_g)
+                    return box_group_temp
+                
+                box_group:List[WebElement] = search_box_group()  
                 
                 
                 box_selected:WebElement
@@ -110,11 +118,14 @@ class Manipulation:
                         #print("\nachou botão")
                         return button
             except Exception as error:
+                print(error)
+                import traceback
+                print(traceback.format_exc())
                 print(error) if num >= num_attempts else None
                 sleep(5)
         
         raise ValueError(f"Botão não encontrado!")
-        
+       
     
     def _changePreview(self) -> None:
         for span in _find_elements(browser=self.navegador, by=By.TAG_NAME, target='span'):
@@ -131,6 +142,20 @@ class Manipulation:
                                 button.click()
                                 break
                     
+    def atualizar(self):
+        try:
+            andamento = self.navegador.find_element(By.XPATH, '//*[@id="mat-mdc-dialog-0"]/div/div/error-dialog/mat-dialog-actions/section/button')
+            andamento.click()
+            raise Exception("Atualização em Andamento")
+        except NoSuchElementException:
+            try:
+                _find_element(browser=self.navegador, by=By.XPATH, target='//*[@id="content"]/tri-shell/tri-item-renderer/tri-extension-page-outlet/div[2]/dataset-details-container/dataset-action-bar/action-bar/action-button[2]/button').click()
+                _find_element(browser=self.navegador, by=By.XPATH, target='//*[@id="mat-menu-panel-1"]/div/span[1]/button').click()
+            except:
+                self.navegador.refresh()
+                raise Exception("Atualização em Andamento")
+        except Exception as err:
+            raise err
                     
 if __name__ == "__main__":
     pass
