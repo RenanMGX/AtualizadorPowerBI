@@ -66,6 +66,7 @@ class Manipulation:
         self.__navegador:WebDriver = webdriver.Chrome(options=self.options)
         if url:
             self.navegador.get(url)
+        self._verificarLogin()
     
     def restart_browser(self):
         self.navegador.close()
