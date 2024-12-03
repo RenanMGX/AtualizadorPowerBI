@@ -43,16 +43,17 @@ def _find_elements(*, browser:WebDriver|WebElement, by:str, target:str, timeout:
     raise Exception(f"Not Found: {target=}")
 
 class Manipulation:
-    @property
-    def options(self) -> Options:
-        return self.__options
+    #@property
+    #def options(self) -> Options:
+    #    return self.__options
+        
     @property
     def navegador(self) -> WebDriver:
         return self.__navegador
     
     def __init__(self, *, url:str="", visible:bool=True) -> None:
-        self.__options = webdriver.ChromeOptions()
-        self.options.add_argument(f"--user-data-dir=C:\\Users\\{getuser()}\\AppData\\Local\\Google\\Chrome")
+        self.options = webdriver.ChromeOptions()
+        self.options.add_argument(f"--user-data-dir=C:\\Users\\{getuser()}\\AppData\\Local\\Google\\Chrome\\User Data2")
         
         if not visible:
             print("invisible")
@@ -62,7 +63,8 @@ class Manipulation:
             self.options.add_argument("--window-position=-2400,-2400")
         else:
             self.options.add_argument("--window-size=1920x1080")
-            
+         
+        #import pdb; pdb.set_trace()
         self.__navegador:WebDriver = webdriver.Chrome(options=self.options)
         if url:
             self.navegador.get(url)

@@ -16,6 +16,7 @@ if __name__ == "__main__":
         initial_config = False
         
         if not initial_config:
+            
             bot = Manipulation(url=url, visible=False)
             
             #bot.navegador.minimize_window()
@@ -38,10 +39,12 @@ if __name__ == "__main__":
                 sleep(5)
                 #bot.navegador.refresh()
         else:
+            
             bot = Manipulation(url=url)
             input("digite para fechar: ")
     
     except Exception as error:
+        #import pdb; pdb.set_trace()
         path:str = "logs/"
         if not os.path.exists(path):
             os.makedirs(path)
@@ -49,4 +52,5 @@ if __name__ == "__main__":
         with open(file_name, 'w', encoding='utf-8')as _file:
             _file.write(traceback.format_exc())
         raise error
+        
         
